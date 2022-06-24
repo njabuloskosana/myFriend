@@ -1,0 +1,52 @@
+<div fxLayoutAlign="center center" fxFlexFill>
+    <mat-card fxFlex="30">
+        <mat-toolbar color="primary">Welcome</mat-toolbar>
+        <mat-tab-group>
+            <mat-tab label="Login">
+                <form class="login-form" fxLayoutAlign="stretch" fxLayout="column" [formGroup]="formGroupLogin" (ngSubmit)="LoginProcess()">
+                    <mat-form-field class="" appearance="fill">
+                      <mat-label>Email</mat-label>
+                      <input matInput type="email" placeholder="Enter Email" value="" formControlName="email">
+                    </mat-form-field>
+                  
+                    <mat-form-field class="" appearance="fill">
+                      <mat-label>Password</mat-label>
+                      <input matInput type="password" placeholder="Enter Password" formControlName="password">
+                    </mat-form-field>
+                    <button mat-raised-button type="submit" color="primary">Login</button>
+                  </form>
+            </mat-tab>
+            <mat-tab label="Register"> 
+                <form class="registration-form" fxLayoutAlign="stretch" fxLayout="column" [formGroup]="formGroupRegister" (ngSubmit)="RegistrationProcess()">
+                    <mat-form-field class="" appearance="fill">
+                      <mat-label>Name</mat-label>
+                      <input matInput type="test" placeholder="Enter Name" value="" formControlName="UsersName">
+                    </mat-form-field>
+                  
+                    <mat-form-field class="" appearance="fill">
+                      <mat-label>LastName</mat-label>
+                      <input matInput type="text" placeholder="Enter Your Surname" formControlName="UsersSurname">
+                    </mat-form-field>
+
+                    <mat-form-field class="" appearance="fill">
+                        <mat-label>Email</mat-label>
+                        <input matInput type="email" placeholder="Enter Your Surname" formControlName="UsersEmail">
+                      </mat-form-field>
+
+                      <mat-form-field class="" appearance="fill">
+                        <mat-label>Password</mat-label>
+                        <input matInput type="password" placeholder="Enter Your Password" formControlName="UsersPassword">
+                      </mat-form-field>
+
+                      <mat-form-field class="" appearance="fill">
+                        <mat-label>Confirm Password</mat-label>
+                        <input matInput type="password" placeholder="Re-Enter Your Password" formControlName="confirm_password_register">
+                      </mat-form-field>
+
+                    <button mat-raised-button type="submit" color="primary">Sign Up</button>
+                  </form>
+            </mat-tab>
+          </mat-tab-group>
+       
+    </mat-card>
+</div>
