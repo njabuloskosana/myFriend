@@ -22,18 +22,25 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatTableModule} from '@angular/material/table';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { AddComponent } from './add/add.component';
+import { DeleteComponent } from './delete/delete.component';
+
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full'},
   { path: 'main', component: MainComponent },
-  { path: 'auth', component: AuthenticationComponent }
+  { path: 'auth', component: AuthenticationComponent },
+  { path: 'add', component: AddComponent },
+  { path: 'delete', component: DeleteComponent }
 ];
 @NgModule({
   declarations: [
     AppComponent,
     AuthenticationComponent,
     HomeComponent,
-    MainComponent
+    MainComponent,
+    AddComponent,
+    DeleteComponent
   ],
   imports: [
     BrowserModule,

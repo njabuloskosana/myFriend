@@ -1,0 +1,20 @@
+<div fxLayoutAlign="center center" fxFlexFill>
+    <mat-card fxFlex="60">
+        <mat-icon (click)="return()">keyboard_backspace</mat-icon>
+        <mat-toolbar color="primary">Delete From Friends List ;( </mat-toolbar>
+        <br>
+        <h1>User Details</h1>
+        <br>
+        <div *ngIf="selectedUser">
+        <h3>{{ selectedUser.UsersName }}</h3>
+        <h4>{{ selectedUser.UsersSurname }}</h4>
+        <p>{{ selectedUser.UsersEmail }}</p>
+        </div>
+        <br>
+        <mat-icon>remove_circle_outline</mat-icon>
+        <br>
+        <button mat-raised-button type="submit" color="primary" (click)="RemoveFriend()">Remove</button>
+   
+       
+</mat-card>
+</div>

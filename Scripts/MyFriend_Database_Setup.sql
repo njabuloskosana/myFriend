@@ -8,3 +8,9 @@ UsersEmail nvarchar(500),
 UsersPassword nvarchar(500),
 CONSTRAINT PK PRIMARY KEY (ID)
 );
+
+create table dbo.Friends(
+user1ID int,
+user2ID int
+);
+

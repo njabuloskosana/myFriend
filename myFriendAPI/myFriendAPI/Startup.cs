@@ -29,15 +29,17 @@ namespace myFriendAPI
         {
 
             services.AddControllers();
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "myFriendAPI", Version = "v1" });
             });
             //Enable CORS
-            services.AddCors(p =>
+            services.AddCors(c =>
             {
-                p.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
+            //services.AddCors();
             //JSON Serializer
             services.AddControllersWithViews().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
                 .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
@@ -47,6 +49,7 @@ namespace myFriendAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -55,15 +58,22 @@ namespace myFriendAPI
             }
 
             app.UseHttpsRedirection();
-
+            app.UseCors("AllowOrigin");
             app.UseRouting();
+        
+
 
             app.UseAuthorization();
+          
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
+
+
+
         }
     }
 }

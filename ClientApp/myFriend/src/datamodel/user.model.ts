@@ -3,12 +3,15 @@ export class user{
      UsersEmail : string;
      UsersPassword : string;
      UsersSurname : string;
+     ID : string;
 
-     constructor(Username:string, UsersSurname: string,UsersEmail:string)
+     constructor(UsersName:string, UsersSurname: string,UsersEmail:string,UsersPassword:string,ID:string)
      {
-        this.UsersName=Username;
+        this.UsersName=UsersName;
         this.UsersSurname=UsersSurname;
         this.UsersEmail=UsersEmail;
+        this.UsersPassword=UsersPassword;
+        this.ID=ID;
      }
 
 }

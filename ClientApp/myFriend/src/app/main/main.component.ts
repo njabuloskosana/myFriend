@@ -5,6 +5,7 @@ import {AfterViewInit, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
+import { AuthServiceService } from '../http-service.service';
 
 @Component({
   selector: 'app-main',
@@ -15,26 +16,24 @@ export class MainComponent implements OnInit {
   firstName: any;
   users: MatTableDataSource<user>;
   friends : MatTableDataSource<user>;
-  array : user[];
+  array : any[];
   array2 : user[];
   displayedColumns = ['Name','Surname','Email']; 
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,private authService : AuthServiceService) { }
 
   ngOnInit(): void {
-    this.array = [
-      new user('Nabulo','Skosana','njabuloskosanadev@gmail.com'),
-      new user('Clife','Mhlongo','njabuloskosanadev@gmail.com'),
-      new user('Nabulo','Skosana','njabuloskosanadev@gmail.com'),
-      new user('Clife','Mhlongo','njabuloskosanadev@gmail.com'),
-      new user('Nabulo','Skosana','njabuloskosanadev@gmail.com'),
-      new user('Clife','Mhlongo','njabuloskosanadev@gmail.com')
    
-    ];
+    this.authService.getAllUsers();
+    this.authService.getAllFriends(this.authService.loggedInUser.ID);
+    this.array=this.authService.AllUers;
+    this.array2=this.authService.AllFriends;
     this.users= new MatTableDataSource(this.array);
+    this.friends= new MatTableDataSource(this.array2);
+    
   }
 
   ngAfterViewInit() {
@@ -68,14 +67,37 @@ export class MainComponent implements OnInit {
     }
   }
 
-  DeleteAccount()
-  {
-    this.router.navigate(['auth']);
+
+
+  DeleteAccount(){
+   
+    this.authService.removeAccount(this.authService.loggedInUser.ID);
+      
   }
 
   LogOut()
   {
     this.router.navigate(['auth']);
   }
+
+  onRowClicked(row) {
+    console.log('Row clicked: ', row);
+
+    this.router.navigate(['add'],{queryParams:{email:row.UsersEmail,name:row.UsersName,surname:row.UsersSurname,id:row.ID}});
+}
+
+onRowClicked2(row) {
+  console.log('Row clicked: ', row);
+
+  this.router.navigate(['delete'],{queryParams:{email:row.UsersEmail,name:row.UsersName,surname:row.UsersSurname,id:row.ID}});
+}
+
+refresh()
+{
+  this.ngOnInit();
+  this.ngAfterViewInit();
+
+}
+
 }
 

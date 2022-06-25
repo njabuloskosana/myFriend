@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import {AuthServiceService} from "../auth-service.service"
+import {AuthServiceService} from "../http-service.service"
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-authentication',
@@ -39,31 +40,21 @@ export class AuthenticationComponent implements OnInit {
   LoginProcess()
   {
     console.log(this.formGroupLogin.value)
-    /*if(this.formGroup.valid){
-      this.authService.login(this.formGroup.value).subscribe(result =>{
-        if(result.sucess)
-        {
-          console.log(result);
-          alert(result.message);
-        }
-      })
-    }*/
-    this.router.navigate(['main']);
+    if(this.formGroupLogin.valid){
+      this.authService.login(this.formGroupLogin.value.email,this.formGroupLogin.value.password);
+    }
   }
 
   RegistrationProcess()
   {
     console.log(this.formGroupRegister.value)
-    /*if(this.formGroupRegister.valid){
-      this.authService.register(this.formGroupRegister.value).subscribe(result =>{
-        if(result.sucess)
-        {
-          console.log(result);
-          alert(result.message);
-        }
-      })
-    }*/
-    this.router.navigate(['main']);
+    if(this.formGroupRegister.valid){
+      this.authService.register(this.formGroupRegister.value);
+      this.router.navigate(['auth']);
+    }
+    else{
+      console.log("Registration Failed");
+    }
   }
 
 }

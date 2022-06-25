@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using myFriendAPI.Models;
@@ -11,50 +10,21 @@ namespace myFriendAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class FriendsController : ControllerBase
     {
         private readonly IConfiguration _configuration;
 
-        public UsersController(IConfiguration configuration)
+        public FriendsController(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
-        //api to get all data from department table
+        [HttpGet("Add/{user1}/{user2}")]
 
-        [HttpGet]
-
-        public JsonResult Get()
-        {
-            Console.WriteLine("GET AUTH REQUEST");
-            string query = @"SELECT * FROM dbo.Users";
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("EmployeeAppCon");
-            SqlDataReader myReader;
-            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
-            {
-                myCon.Open();
-                using (SqlCommand myCommand = new SqlCommand(query, myCon))
-                {
-                   
-                    myReader = myCommand.ExecuteReader();
-                    table.Load(myReader);
-                    myReader.Close();
-                    myCon.Close();
-                }
-            }
-            return new JsonResult(table);
-
-
-        }
-
-        
-        [HttpPost]
-
-        public JsonResult Post(User user)
+        public JsonResult Get(int user1,int user2)
         {
             Console.WriteLine("POST AUTH REQUEST");
-            string query = @"INSERT INTO dbo.Users VALUES (@UsersName,@UsersSurname,@UsersEmail,@UsersPassword)";
+            string query = @"INSERT INTO dbo.Friends VALUES (@user1ID,@user2ID)";
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("EmployeeAppCon");
             SqlDataReader myReader;
@@ -63,10 +33,8 @@ namespace myFriendAPI.Controllers
                 myCon.Open();
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@UsersName", user.UsersName);
-                    myCommand.Parameters.AddWithValue("@UsersSurname", user.UsersSurname);
-                    myCommand.Parameters.AddWithValue("@UsersEmail", user.UsersEmail);
-                    myCommand.Parameters.AddWithValue("@UsersPassword", user.UsersPassword);
+                    myCommand.Parameters.AddWithValue("@user1ID", user1);
+                    myCommand.Parameters.AddWithValue("@user2ID", user2);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -83,7 +51,7 @@ namespace myFriendAPI.Controllers
         public JsonResult Delete(int id)
         {
             Console.WriteLine("DELETE REQUEST");
-            string query = @"DELETE FROM dbo.Users WHERE ID=@ID";
+            string query = @"DELETE FROM dbo.friends WHERE user2ID=@ID";
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("EmployeeAppCon");
             SqlDataReader myReader;
@@ -100,6 +68,33 @@ namespace myFriendAPI.Controllers
                 }
             }
             return new JsonResult("Successfully Removed");
+
+
+        }
+
+        [HttpGet("{id:int}")]
+
+        public JsonResult Get(int id)
+        {
+            Console.WriteLine("GET AUTH REQUEST");
+            //string query = @"SELECT * FROM dbo.Friends WHERE user1ID=@ID";
+            string query = @"SELECT * FROM dbo.Friends INNER JOIN Users ON user1ID=@ID AND Friends.user2ID= Users.ID; ";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("EmployeeAppCon");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myCommand.Parameters.AddWithValue("@ID", id);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult(table);
 
 
         }
